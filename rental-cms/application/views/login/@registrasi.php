@@ -79,6 +79,143 @@ registrasi.save = function() {
 
 </script>
 
+<style>
+.register-page-bg {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 60%, #3b82f6 100%);
+}
+
+.register-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 45px rgba(15, 42, 105, 0.25);
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.register-header h2 {
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 6px;
+    font-size: 26px;
+}
+
+.register-header p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+.register-body .form-group {
+    margin-bottom: 20px;
+}
+
+.register-body label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.register-body .form-control,
+.register-body select.form-control {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color .2s, box-shadow .2s;
+    box-sizing: border-box;
+}
+
+.register-body .form-control:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.register-body .input-group {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.register-body .input-group:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.register-body .input-group .form-control {
+    border: none;
+    box-shadow: none;
+}
+
+.register-body .input-group-text {
+    padding: 0 14px;
+    background: #fff;
+    color: #9ca3af;
+}
+
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: transform .15s, box-shadow .15s;
+}
+
+.btn-register:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 18px;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.login-link a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="register-page-bg">
 <div class="register-wrapper">
 
     <div class="register-card">
@@ -142,6 +279,7 @@ registrasi.save = function() {
 
     </div>
 
+</div>
 </div>
 
 <script>
