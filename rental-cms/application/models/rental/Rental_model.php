@@ -3,37 +3,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Rental_model extends CI_Model
 {
-
     public function getDataAll($data)
     {
-        $queryall = $this->db->query("
-            SELECT
-                ID_Rental,
-                ID_Item,
-                ID_Anggota,
-                Tanggal_Pinjam,
-                Tanggal_Kembali,
-                Status
-            FROM rental
-        ");
+        $filter = [
+            'Status',
+            'Tanggal_Pinjam'
+        ];
 
-        $sql = "
-            SELECT
-                ID_Rental,
-                ID_Item,
-                ID_Anggota,
-                Tanggal_Pinjam,
-                Tanggal_Kembali,
-                Status
-            FROM rental
-            WHERE ".$data['filtervalue']." LIKE '%".$data['filtertext']."%'
-            LIMIT ".$data['start'].",".$data['length'];
+        $filtervalue = in_array($data['filtervalue'], $filter)
+            ? $data['filtervalue']
+            : 'Status';
 
-        $query = $this->db->query($sql);
+        // Total Data
+        $queryTotal = $this->db->select('ID_Rental')
+                               ->from('rental')
+                               ->get();
+
+        // Data
+        $this->db->select('
+            ID_Rental,
+            ID_Item,
+            ID_Anggota,
+            Tanggal_Pinjam,
+            Tanggal_Kembali,
+            Status
+        ');
+
+        $this->db->from('rental');
+
+        if ($data['filtertext'] != '') {
+            $this->db->like($filtervalue, $data['filtertext']);
+        }
+
+        $this->db->limit($data['length'], $data['start']);
+
+        $query = $this->db->get();
+
+        // Records Filtered
+        $this->db->from('rental');
+
+        if ($data['filtertext'] != '') {
+            $this->db->like($filtervalue, $data['filtertext']);
+        }
+
+        $filtered = $this->db->count_all_results();
 
         return array(
-            "RecordsTotal"    => $queryall->num_rows(),
-            "RecordsFiltered" => $queryall->num_rows(),
+            "RecordsTotal"    => $queryTotal->num_rows(),
+            "RecordsFiltered" => $filtered,
             "Data"            => $query->result()
         );
     }
@@ -66,7 +83,7 @@ class Rental_model extends CI_Model
         $hasil = $this->db->delete('rental');
 
         return array(
-            'result' => $hasil,
+            'result'  => $hasil,
             'message' => $hasil ? 'Data berhasil dihapus.' : 'Data gagal dihapus.'
         );
     }
@@ -75,5 +92,4 @@ class Rental_model extends CI_Model
     {
         return $this->db->get('rental')->result();
     }
-
 }

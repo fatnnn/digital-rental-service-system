@@ -9,7 +9,7 @@
     }
 
     var material = {
-        title           : "Data Rental",
+        TITLE           : "Data Rental",
         Recordmaterial  : ko.mapping.fromJS(model.masterModel),
         Listmaterial    : ko.observableArray([]),
         Mode            : ko.observable(''),
@@ -45,7 +45,7 @@
 
     material.selectdata = function(id) {
         model.Processing(true);
-        ajaxPost("<?php echo base_url('data-rental/getDataSelect') ?>", {
+        ajaxPost("<?php echo base_url('rental/RentalController/getDataSelect') ?>", {
             ID_Rental: id
         }, function(res) {
             console.log(res[0]);
@@ -75,9 +75,9 @@
                         swal("Peringatan!", "Data Harap diisi Dengan Benar!", "warning");
                     });
                 } else {
-                    var url = "<?php echo base_url('data-rental/save') ?>";
+                    var url = "<?php echo base_url('rental/RentalController/save') ?>";
                     if (material.Mode() === 'Update')
-                        url = "<?php echo base_url('data-rental/update') ?>";
+                        url = "<?php echo base_url('rental/RentalController/update') ?>";
 
                     ajaxPost(url, material.Recordmaterial, function(res) {
                         if (res.result == true || material.Mode() == "Update") {
@@ -113,7 +113,7 @@
             closeOnConfirm: false,
         }, function(isConfirm) {
             if (isConfirm) {
-                ajaxPost("<?php echo base_url('data-rental/delete') ?>", {
+                ajaxPost("<?php echo base_url('rental/RentalController/delete') ?>", {
                     ID_Rental: id
                 }, function(res) {
                     if (res.result) {
@@ -240,19 +240,16 @@
                                         <div class="table-responsive m-t-40 animated fadeIn">
                                             <table id="myTable" width="100%" class="table table-bordered table-striped">
  <thead>
-<tr>
-    <th>ID Rental</th>
-    <th>ID Item</th>
-    <th>ID Anggota</th>
-    <th>Tanggal Pinjam</th>
-    <th>Tanggal Kembali</th>
-    <th>Status</th>
-    <th>Aksi</th>
-</tr>
+    <tr>
+        <th>ID Rental</th>
+        <th>ID Item</th>
+        <th>ID Anggota</th>
+        <th>Tanggal Pinjam</th>
+        <th>Tanggal Kembali</th>
+        <th>Status</th>
+        <th>Aksi</th>
+    </tr>
 </thead>
-
-                                                        </tr>
-                                                     </thead>
                                                      </table>
                                                      </div> 
                                                     </div>
@@ -274,16 +271,17 @@ $(document).ready(function () {
         serverSide: true,
         searching: false,
         ajax: {
-            url: "<?php echo base_url('data-rental/getData') ?>",
+            url: "<?php echo base_url('rental/RentalController/getData') ?>",
             type: "POST",
-            data: function (d) {
-                d.filtervalue = material.FilterValue();
-                d.filtertext = material.FilterText();
-            },
+            data: function(d){
+            d.filtervalue = material.FilterValue();
+            d.filtertext  = material.FilterText();
+            return d;
+},
             dataSrc: function (json) {
                 json.recordsTotal = json.RecordsTotal;
                 json.recordsFiltered = json.RecordsFiltered;
-                return json.Data;
+                return json.Data ? json.Data : [];
             }
         },
         columns: [
@@ -295,10 +293,10 @@ $(document).ready(function () {
             { data: "Status" },
             {
                 data: "ID_Rental",
-                render: function(data){
-                    return "<button class='btn btn-info btn-sm' onclick='material.selectdata("+data+")'><i class='fa fa-edit'></i></button> " +
-                           "<button class='btn btn-danger btn-sm' onclick='material.remove("+data+")'><i class='fa fa-trash'></i></button>";
-                }
+               render: function(data){
+    return "<button class='btn btn-info btn-sm' onclick='material.selectdata(" + data + ")'><i class='fa fa-edit'></i></button> " +
+           "<button class='btn btn-danger btn-sm' onclick='material.remove(" + data + ")'><i class='fa fa-trash'></i></button>";
+}
             }
         ]
     });
