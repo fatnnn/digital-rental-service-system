@@ -1,11 +1,11 @@
 <script>
     model.masterModel = {
-        ID_Rental       : 0,
-        ID_Item         : "",
-        ID_Anggota      : "",
-        Tanggal_Pinjam  : "",
-        Tanggal_Kembali : "",
-        Status          : "Dipinjam",
+        id_rental       : 0,
+        id_item         : "",
+        id_anggota      : "",
+        tanggal_pinjam  : "",
+        tanggal_kembali : "",
+        status          : "Dipinjam",
     }
 
     var material = {
@@ -14,11 +14,11 @@
         Listmaterial    : ko.observableArray([]),
         Mode            : ko.observable(''),
         FilterText      : ko.observable(''),
-        FilterValue     : ko.observable('Status'),
+        FilterValue     : ko.observable('status'),
 
         SELECTFILTERVALUE: [
-            { name: 'Status',         value: 'Status'         },
-            { name: 'Tanggal Pinjam', value: 'Tanggal_Pinjam' },
+            { name: 'Status',         value: 'status'         },
+            { name: 'Tanggal Pinjam', value: 'tanggal_pinjam' },
         ],
 
         SELECTSTATUS: [
@@ -46,7 +46,7 @@
     material.selectdata = function(id) {
         model.Processing(true);
         ajaxPost("<?php echo base_url('rental/RentalController/getDataSelect') ?>", {
-            ID_Rental: id
+            id_rental: id
         }, function(res) {
             console.log(res[0]);
             material.back(0);
@@ -70,7 +70,7 @@
             showLoaderOnConfirm: true,
         }, function(isConfirm) {
             if (isConfirm) {
-                if (material.Recordmaterial.ID_Item() == "" || material.Recordmaterial.ID_Anggota() == "") {
+                if (material.Recordmaterial.id_item() == "" || material.Recordmaterial.id_anggota() == "") {
                     setTimeout(function() {
                         swal("Peringatan!", "Data Harap diisi Dengan Benar!", "warning");
                     });
@@ -114,7 +114,7 @@
         }, function(isConfirm) {
             if (isConfirm) {
                 ajaxPost("<?php echo base_url('rental/RentalController/delete') ?>", {
-                    ID_Rental: id
+                    id_rental: id
                 }, function(res) {
                     if (res.result) {
                         material.back(1);
@@ -165,7 +165,7 @@
                                                 <button class="btn btn-sm btn-info" data-bind="click:save" data-toggle="tooltip" title="Simpan">
                                                     <i class="fa fa-save"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger" data-bind="click:function(){remove(Recordmaterial.ID_Rental());}, visible: Mode() == 'Update'">
+                                                <button class="btn btn-sm btn-danger" data-bind="click:function(){remove(Recordmaterial.id_rental());}, visible: Mode() == 'Update'">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
@@ -175,19 +175,19 @@
                                     <div class="card-body" data-bind="with: Recordmaterial">
                                         <div class="form-group">
                                             <label>ID Item</label>
-                                            <input type="text" class="form-control" data-bind="value: ID_Item" placeholder="Masukkan ID Item">
+                                            <input type="text" class="form-control" data-bind="value: id_item" placeholder="Masukkan ID Item">
                                         </div>
                                         <div class="form-group">
                                             <label>ID Anggota</label>
-                                            <input type="text" class="form-control" data-bind="value: ID_Anggota" placeholder="Masukkan ID Anggota">
+                                            <input type="text" class="form-control" data-bind="value: id_anggota" placeholder="Masukkan ID Anggota">
                                         </div>
                                         <div class="form-group">
                                             <label>Tanggal Pinjam</label>
-                                            <input type="date" class="form-control" data-bind="value: Tanggal_Pinjam">
+                                            <input type="date" class="form-control" data-bind="value: tanggal_pinjam">
                                         </div>
                                         <div class="form-group">
                                             <label>Tanggal Kembali</label>
-                                            <input type="date" class="form-control" data-bind="value: Tanggal_Kembali">
+                                            <input type="date" class="form-control" data-bind="value: tanggal_kembali">
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>
@@ -195,7 +195,7 @@
                                                 options: material.SELECTSTATUS,
                                                 optionsText: 'name',
                                                 optionsValue: 'value',
-                                                value: Status">
+                                                value: status">
                                             </select>
                                         </div>
                                     </div>
@@ -274,10 +274,10 @@ $(document).ready(function () {
             url: "<?php echo base_url('rental/RentalController/getData') ?>",
             type: "POST",
             data: function(d){
-            d.filtervalue = material.FilterValue();
-            d.filtertext  = material.FilterText();
-            return d;
-},
+                d.filtervalue = material.FilterValue();
+                d.filtertext  = material.FilterText();
+                return d;
+            },
             dataSrc: function (json) {
                 json.recordsTotal = json.RecordsTotal;
                 json.recordsFiltered = json.RecordsFiltered;
@@ -285,18 +285,18 @@ $(document).ready(function () {
             }
         },
         columns: [
-            { data: "ID_Rental" },
-            { data: "ID_Item" },
-            { data: "ID_Anggota" },
-            { data: "Tanggal_Pinjam" },
-            { data: "Tanggal_Kembali" },
-            { data: "Status" },
+            { data: "id_rental" },
+            { data: "id_item" },
+            { data: "id_anggota" },
+            { data: "tanggal_pinjam" },
+            { data: "tanggal_kembali" },
+            { data: "status" },
             {
-                data: "ID_Rental",
-               render: function(data){
-    return "<button class='btn btn-info btn-sm' onclick='material.selectdata(" + data + ")'><i class='fa fa-edit'></i></button> " +
-           "<button class='btn btn-danger btn-sm' onclick='material.remove(" + data + ")'><i class='fa fa-trash'></i></button>";
-}
+                data: "id_rental",
+                render: function(data){
+                    return "<button class='btn btn-info btn-sm' onclick='material.selectdata(" + data + ")'><i class='fa fa-edit'></i></button> " +
+                           "<button class='btn btn-danger btn-sm' onclick='material.remove(" + data + ")'><i class='fa fa-trash'></i></button>";
+                }
             }
         ]
     });

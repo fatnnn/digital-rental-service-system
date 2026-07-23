@@ -6,27 +6,27 @@ class Rental_model extends CI_Model
     public function getDataAll($data)
     {
         $filter = [
-            'Status',
-            'Tanggal_Pinjam'
+            'status',
+            'tanggal_pinjam'
         ];
 
         $filtervalue = in_array($data['filtervalue'], $filter)
             ? $data['filtervalue']
-            : 'Status';
+            : 'status';
 
         // Total Data
-        $queryTotal = $this->db->select('ID_Rental')
+        $queryTotal = $this->db->select('id_rental')
                                ->from('rental')
                                ->get();
 
         // Data
         $this->db->select('
-            ID_Rental,
-            ID_Item,
-            ID_Anggota,
-            Tanggal_Pinjam,
-            Tanggal_Kembali,
-            Status
+            id_rental,
+            id_item,
+            id_anggota,
+            tanggal_pinjam,
+            tanggal_kembali,
+            status
         ');
 
         $this->db->from('rental');
@@ -57,7 +57,7 @@ class Rental_model extends CI_Model
 
     public function getDataId($id)
     {
-        return $this->db->where('ID_Rental', $id)
+        return $this->db->where('id_rental', $id)
                         ->get('rental')
                         ->result();
     }
@@ -69,7 +69,7 @@ class Rental_model extends CI_Model
 
     public function updateData($data)
     {
-        $this->db->where('ID_Rental', $data['ID_Rental']);
+        $this->db->where('id_rental', $data['id_rental']);
 
         return array(
             'result' => $this->db->update('rental', $data)
@@ -78,7 +78,7 @@ class Rental_model extends CI_Model
 
     public function deleteData($data)
     {
-        $this->db->where('ID_Rental', $data['ID_Rental']);
+        $this->db->where('id_rental', $data['id_rental']);
 
         $hasil = $this->db->delete('rental');
 

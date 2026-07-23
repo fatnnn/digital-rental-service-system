@@ -20,7 +20,7 @@ class RentalController extends CI_Controller
         $data = array(
             'start'       => isset($_POST['start'])       ? $_POST['start']       : 0,
             'length'      => isset($_POST['length'])      ? $_POST['length']      : 10,
-            'filtervalue' => isset($_POST['filtervalue']) ? $_POST['filtervalue'] : 'Status',
+            'filtervalue' => isset($_POST['filtervalue']) ? $_POST['filtervalue'] : 'status',
             'filtertext'  => isset($_POST['filtertext'])  ? $_POST['filtertext']  : '',
         );
         $res = $this->model->getDataAll($data);
@@ -30,14 +30,14 @@ class RentalController extends CI_Controller
     function getDataSelect()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $res  = $this->model->getDataId($data['ID_Rental']);
+        $res  = $this->model->getDataId($data['id_rental']);
         echo json_encode($res);
     }
 
     function save()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        unset($data['ID_Rental']); // hapus ID_Rental agar auto increment
+        unset($data['id_rental']); // hapus id_rental agar auto increment
         $insert = $this->model->insertData($data);
         $res    = array('result' => $insert);
         echo json_encode($res);
@@ -53,7 +53,7 @@ class RentalController extends CI_Controller
     function delete()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $data = array('ID_Rental' => $data['ID_Rental']);
+        $data = array('id_rental' => $data['id_rental']);
         $res  = $this->model->deleteData($data);
         echo json_encode($res);
     }
